@@ -52,11 +52,9 @@ function fire(e) {
         hitCount++;
         if (hitCount == 17) {
             alert("deem boy, u sniper lol");
-        }
-    }
+        }}}}
 
-
-}}
-
-
-
+function epilepsy() {
+    var element = document.body;
+    element.classList.toggle("epic-mode");
+}
