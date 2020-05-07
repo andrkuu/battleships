@@ -2,6 +2,24 @@ body{
     animation: 10000ms ease-in-out infinite colorchange;
 }
 
+#gameboard {
+    position:relative;
+    margin:0 auto 2em auto;
+    width:500px;
+    height:500px;
+    top: 10vw;
+    background-color: grey;
+}
+#gameboard div {
+    position:absolute;
+    box-sizing: border-box;
+    background: #f936e1;
+    border: 1px solid #020202;
+    width:50px;
+    height:50px;
+    z-index: 1000;
+}
+
 
 @keyframes colorchange
 {
