@@ -1,6 +1,7 @@
 var rows = 10;
 var cols = 10;
 var size = 50;
+var audio = new Audio('tumm.mp3');
 
 var BoardContainer = document.getElementById("gameboard");
 
@@ -55,6 +56,10 @@ function fire(e) {
         }}}}
 
 function epilepsy() {
+
     var element = document.body;
     element.classList.toggle("epic-mode");
+    audio.play();
+
 }
+
