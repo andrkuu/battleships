@@ -63,3 +63,63 @@ function epilepsy() {
 
 }
 
+var mqtt;
+var reconnectTimeout = 2000;
+var host="90.191.120.132"; //change this
+var port=9001;
+
+
+function connect() {
+
+    var name = document.getElementById("playername").value;
+
+    client = new Paho.MQTT.Client(host, Number(port), name);
+
+    // set callback handlers
+    client.onConnectionLost = onConnectionLost;
+    client.onMessageArrived = onMessageArrived;
+
+    // connect the client
+    client.connect({onSuccess:onConnect});
+
+}
+
+function sendMessage(topic,message) {
+    message = new Paho.MQTT.Message(message);
+    message.destinationName = topic;
+    client.send(message);
+}
+
+function test() {
+    var msg = document.getElementById("message").value;
+    message = new Paho.MQTT.Message(msg);
+    message.destinationName = "/World";
+    client.send(message);
+}
+
+// called when the client connects
+function onConnect() {
+    // Once a connection has been made, make a subscription and send a message.
+    console.log("onConnect");
+    client.subscribe("/World");
+    client.subscribe("/refreshTable");
+    test();
+}
+
+// called when the client loses its connection
+function onConnectionLost(responseObject) {
+    if (responseObject.errorCode !== 0) {
+        console.log("onConnectionLost: "+responseObject.errorMessage);
+    }
+}
+
+// called when a message arrives
+function onMessageArrived(message) {
+    console.log("onMessageArrived: "+message.payloadString);
+
+    if(message.payloadString === "/refreshTable"){
+
+    }
+
+}
+
