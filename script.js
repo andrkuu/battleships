@@ -19,3 +19,39 @@ for (i = 0; i < cols; i++) {
         square.style.left = leftPosition + 'px';
     }
 }
+
+var hitCount = 0;
+
+var gameBoard = [
+    [0,0,0,1,1,1,1,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,0,0,0],
+    [0,0,0,0,0,0,1,0,0,0],
+    [1,0,0,0,0,0,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0],
+    [1,0,0,1,0,0,0,0,0,0],
+    [1,0,0,1,0,0,0,0,0,0],
+    [1,0,0,0,0,0,0,0,0,0]
+]
+
+BoardContainer.addEventListener("click", fire, false);
+
+function fire(e) {
+
+    if (e.target !== e.currentTarget) {
+        var row = e.target.id.substring(1,2);
+        var col = e.target.id.substring(2,3);
+
+
+    if (gameBoard[row][col] == 0) {
+        e.target.style.background = '#bb0609';
+    } else if (gameBoard[row][col] == 1) {
+        e.target.style.background = '#0dbb1f';
+    }
+
+
+}}
+
+
+

@@ -8,7 +8,6 @@ body{
     width:500px;
     height:500px;
     top: 10vw;
-    background-color: grey;
 }
 #gameboard div {
     position:absolute;
@@ -17,9 +16,7 @@ body{
     border: 1px solid #020202;
     width:50px;
     height:50px;
-    z-index: 1000;
 }
-
 
 @keyframes colorchange
 {
