@@ -48,6 +48,11 @@ function fire(e) {
         e.target.style.background = '#bb0609';
     } else if (gameBoard[row][col] == 1) {
         e.target.style.background = '#0dbb1f';
+
+        hitCount++;
+        if (hitCount == 17) {
+            alert("deem boy, u sniper lol");
+        }
     }
 
 
