@@ -60,5 +60,6 @@ function epilepsy() {
     var element = document.body;
     element.classList.toggle("epic-mode");
     audio.play();
+
 }
 
