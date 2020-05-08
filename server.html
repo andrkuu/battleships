@@ -79,6 +79,7 @@
                 else{
                     turn = players[0];
                 }
+                sendMessage("/setTurn", turn);
                 console.log(name + " käis[" + row + "]["+ col+"]");
                 sendMessage("/refreshTable", name + "-"+row + ":" + col)
             }
@@ -112,6 +113,7 @@
                 players[players.length] = playerName;
                 sendMessage("/startGame","");
                 turn = playerName;
+                sendMessage("/setTurn", turn);
             }
             else{
                 players[players.length] = playerName;

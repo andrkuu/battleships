@@ -68,7 +68,7 @@ function paintBoard(){
             } else if (gameBoard[i][j] === 1) {
                 document.getElementById("s" + i+j).style.background = '#0dbb1f';
             } else if (gameBoard[i][j] === 2) {
-                document.getElementById("s" + i+j).style.background = '#f936e1';
+                document.getElementById("s" + i+j).style.background = '#9e9ca0';
             }
         }
     }
@@ -169,6 +169,8 @@ function onConnect() {
 
     client.subscribe("/playerJoined");
     client.subscribe("/startGame");
+    client.subscribe("/setTurn");
+
     message = new Paho.MQTT.Message(name);
     message.destinationName = "/playerJoined";
     client.send(message);
@@ -220,6 +222,9 @@ function onMessageArrived(message) {
     }
     else if(message.destinationName === "/startGame"){
         console.log("Start");
+    }
+    else if(message.destinationName === "/setTurn"){
+        document.getElementById("turnLabel").innerText = message.payloadString + " KORD";
     }
 
 
