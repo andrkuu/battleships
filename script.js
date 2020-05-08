@@ -44,11 +44,14 @@ function fire(e) {
         var row = e.target.id.substring(1,2);
         var col = e.target.id.substring(2,3);
 
+    sendMessage("/refreshTable",row+":"+ col)
 
     if (gameBoard[row][col] == 0) {
         e.target.style.background = '#bb0609';
     } else if (gameBoard[row][col] == 1) {
         e.target.style.background = '#0dbb1f';
+
+
 
         hitCount++;
         if (hitCount == 17) {
@@ -115,9 +118,13 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
-    console.log("onMessageArrived: "+message.payloadString);
+    console.log("onMessageArrived: "+message.destinationName + " - "+message.payloadString);
 
-    if(message.payloadString === "/refreshTable"){
+    if(message.destinationName === "/refreshTable"){
+        let s = message.payloadString;
+        let co = s.split(":");
+        gameBoard[co[0]][co[1]] = 1;
+        console.log(gameBoard);
 
     }
 
