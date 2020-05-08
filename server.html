@@ -18,6 +18,12 @@
 
     var players = [];
 
+    var gameBoard = [
+        [2,2,2],
+        [2,2,2],
+        [2,2,2]
+    ]
+
     function connect() {
 
         var name = "server";
@@ -72,16 +78,21 @@
             let row = arr2[0];
             let col = arr2[1];
 
+
             if(name === turn){
                 if(players.indexOf(name) === 0){
                     turn = players[1];
+                    gameBoard[row][col] = 0;
                 }
                 else{
                     turn = players[0];
+                    gameBoard[row][col] = 1;
                 }
-                sendMessage("/setTurn", turn);
+
                 console.log(name + " käis[" + row + "]["+ col+"]");
-                sendMessage("/refreshTable", name + "-"+row + ":" + col)
+
+                sendMessage("/refreshTable", name + "-"+gameBoard)
+                sendMessage("/setTurn", turn);
             }
 
 
@@ -89,6 +100,7 @@
         }
 
         if(message.destinationName === "/refreshTable"){
+
 
             /*
             let s = message.payloadString;
@@ -114,6 +126,10 @@
                 sendMessage("/startGame","");
                 turn = playerName;
                 sendMessage("/setTurn", turn);
+            }
+            else if(players.length > 1){
+                players = [];
+                players[players.length] = playerName;
             }
             else{
                 players[players.length] = playerName;

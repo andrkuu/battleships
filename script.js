@@ -1,8 +1,6 @@
-var rows = 10;
-var cols = 10;
-var size = 50;
-var audio = new Audio('tumm.mp3');
-
+var rows = 3;
+var cols = 3;
+var size = 100;
 var BoardContainer = document.getElementById("gameboard");
 
 
@@ -11,6 +9,7 @@ var reconnectTimeout = 2000;
 var host="www.kuuskaru.ee"; //change this
 var port=9001;
 var name;
+var turn;
 
 for (i = 0; i < cols; i++) {
     for (j = 0; j < rows; j++) {
@@ -30,37 +29,22 @@ for (i = 0; i < cols; i++) {
 
 var hitCount = 0;
 
-var ships = [
-    [0,0,0,1,1,1,1,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,1,0,0,0],
-    [0,0,0,0,0,0,1,0,0,0],
-    [1,0,0,0,0,0,1,1,1,1],
-    [1,0,0,0,0,0,0,0,0,0],
-    [1,0,0,1,0,0,0,0,0,0],
-    [1,0,0,1,0,0,0,0,0,0],
-    [1,0,0,0,0,0,0,0,0,1]
-]
 
 var gameBoard = [
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2,2,2]
+    [2,2,2],
+    [2,2,2],
+    [2,2,2]
 ]
 
-BoardContainer.addEventListener("click", fire, false);
-BoardContainer.addEventListener("mouseover", hover, false);
+BoardContainer.addEventListener("click", move, false);
+//BoardContainer.addEventListener("mouseover", hover, false);
 
 
 function paintBoard(){
+
+
+
+
     for (i = 0; i < cols; i++) {
         for (j = 0; j < rows; j++) {
             if (gameBoard[i][j] === 0) {
@@ -72,33 +56,12 @@ function paintBoard(){
             }
         }
     }
+
+
+
 }
 
-function hover(e) {
-    paintBoard();
-    /*
-    if (e.target !== e.currentTarget) {
-        var row = e.target.id.substring(1, 2);
-        var col = e.target.id.substring(2, 3);
-        console.log(row + " - " + col);
-
-        for (i = 0; i < cols; i++) {
-            for (j = 0; j < rows; j++) {
-
-                if( i === row && j === col){
-                    document.getElementById("s"+row+col).style.background = '#bb0609';
-                }else{
-                    document.getElementById("s"+row+col).style.background = '#0dbb1f';
-                }
-
-            }
-        }
-
-
-    }*/
-}
-
-function fire(e) {
+function move(e) {
 
     if (e.target !== e.currentTarget) {
         var row = e.target.id.substring(1, 2);
@@ -194,13 +157,32 @@ function onMessageArrived(message) {
 
         let s = message.payloadString;
         let arr1 = s.split("-");
-        let name = arr1[0];
-        let arr2 = arr1[1].split(":");
-        let row = arr2[0];
-        let col = arr2[1];
+        //gameBoard = arr1[1];
 
-        console.log(name + " käis[" + row + "]["+ col+"]");
-        gameBoard[row][col] = ships[row][col];
+        let arr2 = arr1[1].split(",");
+        let index = 0;
+        for (let i = 0; i <=2 ; i++) {
+            gameBoard[0][i] = parseInt(arr2[i]);
+        }
+
+        for (let i = 3; i <=5 ; i++) {
+            gameBoard[1][i-3] = parseInt(arr2[i]);
+        }
+
+        for (let i = 6; i <=8 ; i++) {
+            gameBoard[2][i-6] = parseInt(arr2[i]);
+        }
+
+        console.log(gameBoard);
+        /*
+        if (turn === name){
+            console.log(turn + " = " + name);
+            gameBoard[row][col] = 1;
+        }else{
+            gameBoard[row][col] = 0;
+            console.log(turn + " != " + name);
+        }*/
+       // gameBoard[row][col] = ships[row][col];
         paintBoard();
         /*
         let co = s.split(":");
@@ -224,6 +206,7 @@ function onMessageArrived(message) {
         console.log("Start");
     }
     else if(message.destinationName === "/setTurn"){
+        turn = message.payloadString;
         document.getElementById("turnLabel").innerText = message.payloadString + " KORD";
     }
 
