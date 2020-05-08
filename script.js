@@ -123,9 +123,17 @@ function onMessageArrived(message) {
     if(message.destinationName === "/refreshTable"){
         let s = message.payloadString;
         let co = s.split(":");
-        gameBoard[co[0]][co[1]] = 1;
+        let row = co[0];
+        let col = co[1];
+        //gameBoard[row][col] = 1;
         console.log(gameBoard);
 
+
+        if (gameBoard[row][col] === 0) {
+            document.getElementById("s"+row+col).style.background = '#bb0609';
+        } else if (gameBoard[row][col] === 1) {
+            document.getElementById("s" + row+col).style.background = '#0dbb1f';
+        }
     }
 
 }
