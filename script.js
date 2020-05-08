@@ -104,7 +104,7 @@ function fire(e) {
         var row = e.target.id.substring(1, 2);
         var col = e.target.id.substring(2, 3);
 
-        sendMessage("/refreshTable", name + "-"+row + ":" + col)
+        sendMessage("/move", name + "-"+row + ":" + col)
 
         /*
         if (gameBoard[row][col] == 0) {

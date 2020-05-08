@@ -14,7 +14,7 @@
     var reconnectTimeout = 2000;
     var host="www.kuuskaru.ee";
     var port=9001;
-
+    var turn;
 
     var players = [];
 
@@ -45,6 +45,7 @@
         client.subscribe("/World");
         client.subscribe("/refreshTable");
         client.subscribe("/playerJoined");
+        client.subscribe("/move");
     }
 
     // called when the client loses its connection
@@ -59,7 +60,10 @@
     function onMessageArrived(message) {
         console.log("onMessageArrived: "+message.destinationName + " - "+message.payloadString);
 
-        if(message.destinationName === "/refreshTable"){
+
+
+        if(message.destinationName === "/move"){
+
 
             let s = message.payloadString;
             let arr1 = s.split("-");
@@ -68,7 +72,37 @@
             let row = arr2[0];
             let col = arr2[1];
 
-            console.log(name + " käis[" + row + "]["+ col+"]");
+            if(name === turn){
+                if(players.indexOf(name) === 0){
+                    turn = players[1];
+                }
+                else{
+                    turn = players[0];
+                }
+                console.log(name + " käis[" + row + "]["+ col+"]");
+                sendMessage("/refreshTable", name + "-"+row + ":" + col)
+            }
+
+
+
+        }
+
+        if(message.destinationName === "/refreshTable"){
+
+            /*
+            let s = message.payloadString;
+            let arr1 = s.split("-");
+            let name = arr1[0];
+            let arr2 = arr1[1].split(":");
+            let row = arr2[0];
+            let col = arr2[1];
+
+            if(name === turn){
+                players.indexOf(name)
+                console.log(name + " käis[" + row + "]["+ col+"]");
+            }*/
+
+
 
         }
 
@@ -77,6 +111,7 @@
             if(players.length === 1){
                 players[players.length] = playerName;
                 sendMessage("/startGame","");
+                turn = playerName;
             }
             else{
                 players[players.length] = playerName;
